@@ -29,9 +29,8 @@ sed -i 's/DB_DATABASE=/DB_DATABASE=koel/g' ./.env
 sed -i 's/DB_USERNAME=/DB_USERNAME=koel-user/g' ./.env
 sed -i 's/DB_PASSWORD=/DB_PASSWORD=koel-pass/g' ./.env
 
-# modify php.ini memory limit and add in required extension
+# modify php.ini to add in required extension
 sed -i 's/;extension=pdo_mysql.so/extension=pdo_mysql.so/g' /etc/php/php.ini
-sed -i 's/memory_limit = 128M/memory_limit = 2048M/g' /etc/php/php.ini
 
 # configure php-fpm to use tcp/ip connection for listener
 echo "" >> /etc/php/php-fpm.conf

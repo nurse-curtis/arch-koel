@@ -19,6 +19,8 @@ docker run -d \
     -v <path for media files>:/media \
     -v <path for config files>:/config \
     -v /etc/localtime:/etc/localtime:ro \
+    -e PHP_MEMORY_LIMIT=<value in megabytes> \
+    -e FASTCGI_READ_TIMEOUT=<timeout value in seconds> \
     -e PUID=<uid for user> \
     -e PGID=<gid for user> \
     binhex/arch-koel
@@ -26,13 +28,15 @@ docker run -d \
 
 Please replace all user variables in the above command defined by <> with the correct values.
 
-**Access application**<br>
+**Access application**
 
 `http://<host ip>:8050`
 
 or
 
 `https://<host ip>:8060`
+
+The default username for the web ui is "admin@example.com", password is "admin"
 
 **Example**
 ```
@@ -43,12 +47,14 @@ docker run -d \
     -v /media/music:/media \
     -v /apps/docker/koel/config:/config \
     -v /etc/localtime:/etc/localtime:ro \
+    -e PHP_MEMORY_LIMIT=2048 \
+    -e FASTCGI_READ_TIMEOUT=6000 \
     -e PUID=0 \
     -e PGID=0 \
     binhex/arch-koel
 ```
 
-**Notes**<br>
+**Notes**
 
 User ID (PUID) and Group ID (PGID) can be found by issuing the following command for the user you want to run the container as:-
 
@@ -56,7 +62,7 @@ User ID (PUID) and Group ID (PGID) can be found by issuing the following command
 id <username>
 ```
 
-Default username for the webui is "admin@example.com", password is "admin"
+If your music collection is large you may have to increase the value for PHP_MEMORY_LIMIT (default value 2048 MB) and FASTCGI_READ_TIMEOUT (default value 6000 secs) in order to prevent running out of memory and/or timing out during the initial library scan.
 ___
 If you appreciate my work, then please consider buying me a beer  :D
 

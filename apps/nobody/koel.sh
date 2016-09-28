@@ -1,17 +1,5 @@
 #!/bin/bash
 
-# if php timezone specified then set in php.ini (prevents issues with dst)
-if [[ ! -z "${PHP_TZ}" ]]; then
-
-	echo "[info] Setting PHP timezone to ${PHP_TZ}..."
-	sed -i -e "s~.*date\.timezone \=.*~date\.timezone \= ${PHP_TZ}~g" "/etc/php/php.ini"
-
-else
-
-	echo "[warn] PHP timezone not set, this may cause issues with the ruTorrent Scheduler plugin, see here for a list of available PHP timezones, http://php.net/manual/en/timezones.php"
-
-fi
-
 # if nginx cert files dont exist then copy defaults to host config volume (location specified in nginx.conf, no need to soft link)
 if [[ ! -f "/config/nginx/certs/host.cert" || ! -f "/config/nginx/certs/host.key" ]]; then
 
@@ -108,6 +96,32 @@ fi
 
 # create soft link to koel config file
 ln -fs /config/koel/config/.env /opt/koel/.env
+
+# if php memory limit specified then set in php.ini (prevents oom during intial scan)
+if [[ ! -z "${PHP_MEMORY_LIMIT}" ]]; then
+
+	echo "[info] Setting PHP memory limit to ${PHP_MEMORY_LIMIT}..."
+	sed -i 's/memory_limit =.* /memory_limit = '"${PHP_MEMORY_LIMIT}"'M/g' /config/php/config/php.ini
+
+else
+
+	echo "[warn] PHP memory limit not set, using the default value of 2048 MB"
+	sed -i 's/memory_limit =.* /memory_limit = 2048M/g' /config/php/config/php.ini
+
+fi
+
+# if nginx fastcgi read timeout specified then set in nginx.conf (prevents timeout during intial scan)
+if [[ ! -z "${FASTCGI_READ_TIMEOUT}" ]]; then
+
+	echo "[info] Setting nginx fastcgi timeout to ${FASTCGI_READ_TIMEOUT}..."
+	sed -i 's/fastcgi_read_timeout.*/fastcgi_read_timeout         '"${FASTCGI_READ_TIMEOUT}"'s;/g' /config/nginx/config/nginx.conf
+
+else
+
+	echo "[warn] NGINX fastcgi resd timeout not set, using the default value of 6000 secs"
+	sed -i 's/fastcgi_read_timeout.*/fastcgi_read_timeout         6000s;/g' /config/nginx/config/nginx.conf
+
+fi
 
 echo "[info] starting php-fpm..."
 
