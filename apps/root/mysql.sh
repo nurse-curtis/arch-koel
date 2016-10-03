@@ -1,12 +1,23 @@
 #!/bin/bash
 
-# if mysql database doesnt exist then initalise
-if [ ! -f "/config/mysql/database/mysql-bin.index" ]; then
+# if mysql system database doesnt exist then initialise
+if [ ! -d "/config/mysql/database/mysql/" ]; then
+
+	echo "[info] mysql system database not present, initialising mysql..."
 
 	mkdir -p /config/mysql/database
 
 	# initialise mysql
 	/usr/bin/mysql_install_db --user=nobody --ldata=/config/mysql/database/ --basedir=/usr
+
+fi
+
+# if koel database doesnt exist then initalise
+if [ ! -d "/config/mysql/database/koel/" ]; then
+
+	echo "[info] mysql koel database not present, creating koel database..."
+
+	mkdir -p /config/mysql/database
 
 	# create script to run
 	echo "CREATE DATABASE IF NOT EXISTS koel;" > /home/nobody/create_db_koel.sql
