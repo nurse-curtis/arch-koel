@@ -31,6 +31,7 @@ sed -i 's/DB_PASSWORD=/DB_PASSWORD=koel-pass/g' ./.env
 
 # modify php.ini to add in required extension
 sed -i 's/;extension=pdo_mysql.so/extension=pdo_mysql.so/g' /etc/php/php.ini
+sed -i 's/;extension=exif.so/extension=exif.so/g' /etc/php/php.ini
 
 # configure php-fpm to use tcp/ip connection for listener
 echo "" >> /etc/php/php-fpm.conf
