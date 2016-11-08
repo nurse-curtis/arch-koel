@@ -32,9 +32,6 @@ fi
 # define arch official repo (aor) packages
 aor_packages=""
 
-# define arch official repo (aor) package type e.g. core/community/extra
-aor_package_type=""
-
 # call aor script (arch official repo)
 source /root/aor.sh
 
@@ -50,14 +47,11 @@ aur_packages=""
 # call aur install script (arch user repo)
 source /root/aur.sh
 
-# find latest koel release tag from github
-release_tag=$(curl -s https://github.com/phanan/koel/releases | grep -P -o -m 1 '(?<=/phanan/koel/releases/tag/)[^"]+')
+# call custom install script
+source /root/custom.sh
 
-# git clone koel and install pre-reqs
-mkdir -p /opt/koel && cd /opt/koel
-git clone --branch "${release_tag}" https://github.com/phanan/koel .
-npm install --unsafe-perm
-composer install
+# config
+####
 
 # copy example koel env file and define
 cp ./.env.example ./.env
