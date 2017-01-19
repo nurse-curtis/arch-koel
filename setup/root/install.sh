@@ -42,7 +42,7 @@ source /root/aor.sh
 aur_helper="apacman"
 
 # define aur packages
-aur_packages=""
+aur_packages="yarn"
 
 # call aur install script (arch user repo)
 source /root/aur.sh
