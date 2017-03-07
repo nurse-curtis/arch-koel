@@ -21,6 +21,7 @@ docker run -d \
     -v /etc/localtime:/etc/localtime:ro \
     -e PHP_MEMORY_LIMIT=<value in megabytes> \
     -e FASTCGI_READ_TIMEOUT=<timeout value in seconds> \
+    -e UMASK=<umask for created files> \
     -e PUID=<uid for user> \
     -e PGID=<gid for user> \
     binhex/arch-koel
@@ -49,6 +50,7 @@ docker run -d \
     -v /etc/localtime:/etc/localtime:ro \
     -e PHP_MEMORY_LIMIT=2048 \
     -e FASTCGI_READ_TIMEOUT=6000 \
+    -e UMASK=000 \
     -e PUID=0 \
     -e PGID=0 \
     binhex/arch-koel
