@@ -9,7 +9,8 @@ release_tag=$(curl -s https://github.com/phanan/koel/releases | grep -P -o -m 1 
 # git clone koel and install pre-reqs
 mkdir -p /opt/koel && cd /opt/koel
 git clone --branch "${release_tag}" https://github.com/phanan/koel .
-npm install --unsafe-perm
+yarn install --unsafe-perm
+
 # below is a hack to get around install issue for v3.4.1
 composer require pusher/pusher-php-server --no-scripts
 composer install
