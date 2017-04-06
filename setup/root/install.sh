@@ -61,6 +61,7 @@ sed -i 's/DB_DATABASE=/DB_DATABASE=koel/g' /opt/koel/.env
 sed -i 's/DB_USERNAME=/DB_USERNAME=koel-user/g' /opt/koel/.env
 sed -i 's/DB_PASSWORD=/DB_PASSWORD=koel-pass/g' /opt/koel/.env
 sed -i 's/STREAMING_METHOD=.*/STREAMING_METHOD=x-accel-redirect/g' /opt/koel/.env
+sed -i 's/APP_MAX_SCAN_TIME=.*/APP_MAX_SCAN_TIME=6000/g' /opt/koel/.env
 
 # modify php.ini to add in required extension
 sed -i 's/;extension=pdo_mysql.so/extension=pdo_mysql.so/g' /etc/php/php.ini
