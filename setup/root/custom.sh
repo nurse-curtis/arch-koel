@@ -4,7 +4,7 @@
 set -e
 
 # find latest koel release tag from github
-release_tag=$(curl -s https://github.com/phanan/koel/releases | grep -P -o -m 1 '(?<=/phanan/koel/releases/tag/)[^"]+')
+release_tag=$(curl --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 60 -s https://github.com/phanan/koel/releases | grep -P -o -m 1 '(?<=/phanan/koel/releases/tag/)[^"]+')
 
 # git clone koel and install pre-reqs
 mkdir -p /opt/koel && cd /opt/koel
