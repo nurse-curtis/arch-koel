@@ -35,7 +35,7 @@ if [ ! -f "/config/nginx/config/nginx.conf" ]; then
 
 	mkdir -p /config/nginx/config
 
-	# if nginx defaiult config file exists then delete
+	# if nginx default config file exists then delete
 	if [[ -f "/etc/nginx/nginx.conf" && ! -L "/etc/nginx/nginx.conf" ]]; then
 		rm -rf /etc/nginx/nginx.conf
 	fi
@@ -51,18 +51,17 @@ fi
 # create soft link to nginx config file
 ln -fs /config/nginx/config/nginx.conf /etc/nginx/nginx.conf
 
+# if php config file backup doesnt exist then rename
+if [ ! -f "/etc/php/php.ini-backup" ]; then
+	mv /etc/php/php.ini /etc/php/php.ini-backup
+fi
+
 # if php config file doesnt exist then copy default to host config volume (soft linked)
 if [ ! -f "/config/php/config/php.ini" ]; then
 
 	echo "[info] php config file doesnt exist, copying default to /config/php/config/..."
 
 	mkdir -p /config/php/config
-
-	# if php defaiult config file exists then delete
-	if [[ -f "/etc/php/php.ini" && ! -L "/etc/php/php.ini" ]]; then
-		mv /etc/php/php.ini /etc/php/php.ini-default
-	fi
-
 	cp /etc/php/php.ini-default /config/php/config/php.ini
 
 else
@@ -74,19 +73,18 @@ fi
 # create soft link to php config file
 ln -fs /config/php/config/php.ini /etc/php/php.ini
 
+# if koel config file backup doesnt exist then rename
+if [ ! -f "/opt/koel/.env-backup" ]; then
+	mv /opt/koel/.env /opt/koel/.env-backup
+fi
+
 # if koel config file doesnt exist then copy default to host config volume (soft linked)
 if [ ! -f "/config/koel/config/.env" ]; then
 
 	echo "[info] koel config file doesnt exist, copying default to /config/koel/config/..."
 
 	mkdir -p /config/koel/config
-
-	# if koel defaiult config file exists then delete
-	if [[ -f "/opt/koel/.env" && ! -L "/opt/koel/.env" ]]; then
-		mv /opt/koel/.env /opt/koel/.env-default
-	fi
-	
-	cp /opt/koel/.env-default /config/koel/config/.env
+	cp /opt/koel/.env-backup /config/koel/config/.env
 
 else
 
