@@ -62,7 +62,7 @@ if [ ! -f "/config/php/config/php.ini" ]; then
 	echo "[info] php config file doesnt exist, copying default to /config/php/config/..."
 
 	mkdir -p /config/php/config
-	cp /etc/php/php.ini-default /config/php/config/php.ini
+	cp /etc/php/php.ini-backup /config/php/config/php.ini
 
 else
 
