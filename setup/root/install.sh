@@ -19,7 +19,7 @@ find /tmp/scripts-master/ -type f -name '*.sh' -exec mv -i {} /root/  \;
 ####
 
 # define pacman packages
-pacman_packages="php npm nodejs composer git mariadb libnotify php-fpm nginx"
+pacman_packages="php npm nodejs composer git mariadb libnotify php-fpm nginx yarn"
 
 # install compiled packages using pacman
 if [[ ! -z "${pacman_packages}" ]]; then
@@ -39,7 +39,7 @@ source /root/aor.sh
 ####
 
 # define aur packages
-aur_packages="yarn"
+aur_packages=""
 
 # call aur install script (arch user repo)
 source /root/aur.sh
