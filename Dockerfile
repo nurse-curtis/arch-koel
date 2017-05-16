@@ -5,16 +5,16 @@ MAINTAINER binhex
 ##################
 
 # add supervisor conf file for app
-ADD setup/*.conf /etc/supervisor/conf.d/
+ADD build/*.conf /etc/supervisor/conf.d/
 
 # add setup bash script
-ADD setup/root/*.sh /root/
+ADD build/root/*.sh /root/
 
-# add apps bash script
-ADD apps/nobody/*.sh /home/nobody/
+# add run bash script
+ADD run/nobody/*.sh /home/nobody/
 
-# add apps bash script
-ADD apps/root/*.sh /root/
+# add run bash script
+ADD run/root/*.sh /root/
 
 # add pre-configured config files for nobody
 ADD config/nobody/ /home/nobody/
