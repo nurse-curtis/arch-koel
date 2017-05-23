@@ -3,8 +3,13 @@
 # exit script if return code != 0
 set -e
 
-# find latest koel release tag from github
-release_tag=$(curl --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 60 -s https://github.com/phanan/koel/releases | grep -P -o -m 1 '(?<=/phanan/koel/releases/tag/)[^"]+')
+repo_name="phanan"
+app_name="koel"
+install_name="koel"
+
+# find latest release tag from github
+curly.sh -rc 6 -rw 10 -of /tmp/release_tag -url "https://github.com/${repo_name}/${app_name}/releases"
+release_tag=$(cat /tmp/release_tag | grep -P -o -m 1 "(?<=/${repo_name}/${app_name}/releases/tag/)[^\"]+")
 
 # git clone koel and install pre-reqs
 mkdir -p /opt/koel && cd /opt/koel
