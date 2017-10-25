@@ -8,7 +8,7 @@ app_name="koel"
 install_name="koel"
 
 # find latest release tag from github
-curly.sh -rc 6 -rw 10 -of /tmp/release_tag -url "https://github.com/${repo_name}/${app_name}/releases"
+/root/curly.sh -rc 6 -rw 10 -of /tmp/release_tag -url "https://github.com/${repo_name}/${app_name}/releases"
 release_tag=$(cat /tmp/release_tag | grep -P -o -m 1 "(?<=/${repo_name}/${app_name}/releases/tag/)[^\"]+")
 
 # git clone koel and install pre-reqs
