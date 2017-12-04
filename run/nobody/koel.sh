@@ -73,18 +73,13 @@ fi
 # create soft link to php config file
 ln -fs /config/php/config/php.ini /etc/php/php.ini
 
-# if koel config file backup doesnt exist then rename
-if [ ! -f "/opt/koel/.env-backup" ]; then
-	mv /opt/koel/.env /opt/koel/.env-backup
-fi
-
 # if koel config file doesnt exist then copy default to host config volume (soft linked)
 if [ ! -f "/config/koel/config/.env" ]; then
 
 	echo "[info] koel config file doesnt exist, copying default to /config/koel/config/..."
 
 	mkdir -p /config/koel/config
-	cp /opt/koel/.env-backup /config/koel/config/.env
+	cp /opt/koel/.env.backup /config/koel/config/.env
 
 else
 

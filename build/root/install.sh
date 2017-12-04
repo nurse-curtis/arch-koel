@@ -44,24 +44,35 @@ aur_packages=""
 # call aur install script (arch user repo)
 source /root/aur.sh
 
-# call custom install script
-source /root/custom.sh
+# github releases
+####
+
+# download koel
+/root/github.sh -df "github-download.zip" -dp "/tmp" -ep "/tmp/extracted" -ip "/opt/koel" -go "phanan" -gr "koel" -rt "source"
+
+# install koel
+cd /opt/koel && yarn install --unsafe-perm
+composer install
+
+# another hack, laravel 5.4 uses the utf8mb4 character set by default, which includes support for storing "emojis" in the database.
+# mysql 5.7.7+ / mariadb 10.2.2+) both have this new character set by default, so this is only a tempory hack until they are updated.
+sed -i -e 's~mb4~~g' /opt/koel/config/database.php
 
 # config
 ####
 
 # copy example koel env file and define
-cp /opt/koel/.env.example /opt/koel/.env
-sed -i 's/ADMIN_EMAIL=/ADMIN_EMAIL=admin@example.com/g' /opt/koel/.env
-sed -i 's/ADMIN_NAME=/ADMIN_NAME=admin/g' /opt/koel/.env
-sed -i 's/ADMIN_PASSWORD=/ADMIN_PASSWORD=admin/g' /opt/koel/.env
-sed -i 's/DB_CONNECTION=/DB_CONNECTION=mysql/g' /opt/koel/.env
-sed -i 's/DB_HOST=/DB_HOST=127.0.0.1/g' /opt/koel/.env
-sed -i 's/DB_DATABASE=/DB_DATABASE=koel/g' /opt/koel/.env
-sed -i 's/DB_USERNAME=/DB_USERNAME=koel-user/g' /opt/koel/.env
-sed -i 's/DB_PASSWORD=/DB_PASSWORD=koel-pass/g' /opt/koel/.env
-sed -i 's/STREAMING_METHOD=.*/STREAMING_METHOD=x-accel-redirect/g' /opt/koel/.env
-sed -i 's/APP_MAX_SCAN_TIME=.*/APP_MAX_SCAN_TIME=6000/g' /opt/koel/.env
+cp /home/nobody/koel/.env.example /opt/koel/.env.backup || ls -al
+sed -i 's/ADMIN_EMAIL=/ADMIN_EMAIL=admin@example.com/g' /opt/koel/.env.backup
+sed -i 's/ADMIN_NAME=/ADMIN_NAME=admin/g' /opt/koel/.env.backup
+sed -i 's/ADMIN_PASSWORD=/ADMIN_PASSWORD=admin/g' /opt/koel/.env.backup
+sed -i 's/DB_CONNECTION=/DB_CONNECTION=mysql/g' /opt/koel/.env.backup
+sed -i 's/DB_HOST=/DB_HOST=127.0.0.1/g' /opt/koel/.env.backup
+sed -i 's/DB_DATABASE=/DB_DATABASE=koel/g' /opt/koel/.env.backup
+sed -i 's/DB_USERNAME=/DB_USERNAME=koel-user/g' /opt/koel/.env.backup
+sed -i 's/DB_PASSWORD=/DB_PASSWORD=koel-pass/g' /opt/koel/.env.backup
+sed -i 's/STREAMING_METHOD=.*/STREAMING_METHOD=x-accel-redirect/g' /opt/koel/.env.backup
+sed -i 's/APP_MAX_SCAN_TIME=.*/APP_MAX_SCAN_TIME=6000/g' /opt/koel/.env.backup
 
 # modify php.ini to add in required extension
 sed -i 's/;extension=pdo_mysql.so/extension=pdo_mysql.so/g' /etc/php/php.ini
@@ -86,8 +97,8 @@ echo "listen.group = users" >> /etc/php/php-fpm.conf
 # create file with contets of here doc
 cat <<'EOF' > /tmp/permissions_heredoc
 # set permissions inside container
-chown -R "${PUID}":"${PGID}" /opt/koel/ /usr/share/nginx/html/ /etc/nginx/ /etc/php/ /run/php-fpm/ /var/lib/nginx/ /var/log/nginx/ /var/lib/mysql/ /home/nobody
-chmod -R 775 /opt/koel/ /usr/share/nginx/html/ /etc/nginx/ /etc/php/ /run/php-fpm/ /var/lib/nginx/ /var/log/nginx/ /var/lib/mysql/ /home/nobody
+chown -R "${PUID}":"${PGID}" /opt/koel/ /usr/share/nginx/html/ /etc/nginx/ /etc/php/ /run/php-fpm/ /var/lib/nginx/ /var/log/nginx/ /var/lib/mysql/ /home/nobody /run/mysqld
+chmod -R 775 /opt/koel/ /usr/share/nginx/html/ /etc/nginx/ /etc/php/ /run/php-fpm/ /var/lib/nginx/ /var/log/nginx/ /var/lib/mysql/ /home/nobody /run/mysqld
 
 EOF
 
