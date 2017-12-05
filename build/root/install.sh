@@ -91,6 +91,9 @@ echo "" >> /etc/php/php-fpm.conf
 echo "; Specify user listener group" >> /etc/php/php-fpm.conf
 echo "listen.group = users" >> /etc/php/php-fpm.conf
 
+# create socket for mysqld
+mkdir -p /run/mysqld
+
 # container perms
 ####
 
