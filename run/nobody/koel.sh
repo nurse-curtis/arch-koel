@@ -131,7 +131,7 @@ done
 echo "[info] initialise koel..."
 
 # initialise koel
-cd /opt/koel && /usr/bin/php artisan koel:init
+cd /opt/koel && expect /home/nobody/koel/init.exp
 
 echo "[info] starting nginx..."
 

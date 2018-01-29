@@ -1,0 +1,21 @@
+#!/usr/bin/expect
+
+set timeout 300
+
+spawn /usr/bin/php artisan koel:init
+
+expect "Your name*"
+send "admin\r"
+
+expect "Your email address*"
+send "admin@example.com\r"
+
+expect "Your desired password*"
+send "admin\r"
+
+expect "Again, just to make sure*"
+send "admin\r"
+
+expect "Media path*"
+send "\r"
+expect
