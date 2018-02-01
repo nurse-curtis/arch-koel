@@ -39,7 +39,7 @@ if [ ! -f "/config/nginx/config/nginx.conf" ]; then
 	if [[ -f "/etc/nginx/nginx.conf" && ! -L "/etc/nginx/nginx.conf" ]]; then
 		rm -rf /etc/nginx/nginx.conf
 	fi
-	
+
 	cp /home/nobody/nginx/config/* /config/nginx/config/
 
 else
@@ -119,19 +119,32 @@ fi
 echo "[info] starting php-fpm..."
 
 # run php-fpm and specify path to pid file
-/usr/bin/php-fpm --pid /home/nobody/php-fpm.pid
+/usr/bin/php-fpm --pid "/home/nobody/php-fpm.pid"
 
-echo "[info] waiting for mysql..."
+echo "[info] php-fpm started"
+
+echo "[info] waiting for mysql to start..."
 
 # wait for mysql to come up
 while ! mysqladmin ping -h"127.0.0.1" --silent; do
 	sleep 0.1
 done
 
-echo "[info] initialise koel..."
+echo "[info] mysql started"
 
-# initialise koel
-cd /opt/koel && expect /home/nobody/koel/init.exp
+if [ ! -f "/config/koel/database/file" ]; then
+
+	echo "[info] initialise koel database..."
+
+	cd /opt/koel && expect /home/nobody/koel/init.exp
+
+elif [ ! -f "/opt/koel/dbinit" ]; then
+
+	echo "[info] re-initialise koel database..."
+
+	cd /opt/koel && /usr/bin/php artisan koel:init && touch "/opt/koel/dbinit"
+
+fi
 
 echo "[info] starting nginx..."
 
