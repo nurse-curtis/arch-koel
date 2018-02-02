@@ -17,5 +17,5 @@ expect "Again, just to make sure*"
 send "admin\r"
 
 expect "Media path*"
-send "\r"
+send "/media\r"
 expect
