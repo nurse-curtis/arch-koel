@@ -132,7 +132,8 @@ done
 
 echo "[info] mysql started"
 
-if [ ! -f "/config/koel/database/file" ]; then
+# check if koel database is populated, if not then init
+if [ ! -f "/config/mysql/database/koel/albums.ibd" ]; then
 
 	echo "[info] initialise koel database..."
 
