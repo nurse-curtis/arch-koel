@@ -19,21 +19,12 @@ mv /tmp/scripts-master/shell/arch/docker/*.sh /root/
 ####
 
 # define pacman packages
-pacman_packages="php npm nodejs composer git mariadb libnotify php-fpm nginx expect"
+pacman_packages="php npm nodejs composer git mariadb libnotify php-fpm nginx expect yarn"
 
 # install compiled packages using pacman
 if [[ ! -z "${pacman_packages}" ]]; then
 	pacman -S --needed $pacman_packages --noconfirm
 fi
-
-# aor packages
-####
-
-# define arch official repo (aor) packages
-aor_packages="yarn"
-
-# call aor script (arch official repo)
-source /root/aor.sh
 
 # aur packages
 ####
